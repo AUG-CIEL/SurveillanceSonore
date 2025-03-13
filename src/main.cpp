@@ -12,7 +12,7 @@ SSD1306 ecranOled(0x3c, 5, 4);
   ecranOled.init();
   ecranOled.clear();
 
-  // Définir la police de caractères
+
   ecranOled.setFont(ArialMT_Plain_16);
 
   // Dessiner le texte (nom de l'application et version)
