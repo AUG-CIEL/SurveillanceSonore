@@ -20,16 +20,34 @@
 
 /// @class CSon
 /// @brief Classe permettant l'acquisition et le traitement des signaux sonores via I2S et FFT.
+
+
 class CSon {
+
+    /// @brief FFT Partie réelle
+    double vReal[SAMPLES];
+
+    /// @brief FFT Partie imaginaire
+    double vImag[SAMPLES];
+
+    /// @brief Instanciation FFT
+    ArduinoFFT<double> FFT;
+
+    /// @brief Configuration des Entrées/sorties de l'I2S pour le microphone INMP441
+    i2s_pin_config_t pinCconfig;
+
+    /// @brief Configuration des paramètres I2S
+    i2s_config_t i2sConfig;
+
+    
+
+
 public:
     /// @brief Niveau sonore moyen calculé.
     float niveauSonoreMoyen;
     /// @brief Niveau sonore crête mesuré.
     float niveauSonoreCrete;
-    /// @brief Tableau des valeurs réelles pour l'analyse FFT.
-    float vReal[SAMPLES];
-    /// @brief Tableau des valeurs imaginaires pour l'analyse FFT.
-    float vImag[SAMPLES];
+    
     /// @brief Tableau contenant les données acquises via I2S.
     int32_t i2sData[SAMPLES];
 
