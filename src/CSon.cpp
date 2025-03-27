@@ -32,4 +32,14 @@ CSon::CSon()
     };
 
 
+
+
+    };
+
+
+    CSon::Setup(){
+    result = i2s_driver_install(I2S_NUM_0, &this->i2sConfig, 0, NULL); 
+    result = i2s_set_pin(I2S_NUM_0, &this->pinCconfig); 
+    result = i2s_zero_dma_buffer(I2S_NUM_0); 
+    return result; 
     }
