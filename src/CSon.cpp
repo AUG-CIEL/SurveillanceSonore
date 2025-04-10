@@ -47,3 +47,27 @@ esp_err_t CSon::Setup()
     }
 
 
+esp_err_t CSon::SamplesDmaAcquisition()
+{
+// Nombre d'octets lues en mémoire DMA
+size_t bytesRead;
+// Capture des données audio
+result = i2s_read(I2S_NUM_0, &this->i2sData, sizeof(this->i2sData), &bytesRead, 
+portMAX_DELAY);
+if (result == ESP_OK)
+{
+int16_t samplesRead = bytesRead/ 4;         // Conversion du nombre d'octets lus en nombre d'échantillons audio (chaque échantillon est codé sur 4 octets)
+if (samplesRead > 0) 
+{
+float mean = 0;
+for (int16_t i = 0; i < samplesRead; ++i) 
+{
+i2sData[i]= i2sData[i]>> 8;                 // Décalage de 8 bits vers la droite pour convertir les échantillons 32 bits en 16 bits (réduction de la dynamique)
+mean += abs(i2sData[i]);
+if (abs(i2sData[i])>niveauSonoreCrete) niveauSonoreCrete=abs(i2sData[i]);
+}
+this->niveauSonoreMoyen = mean/samplesRead;             // Calcul du niveau sonore moyen en normalisant la somme des valeurs absolues des échantillons
+} 
+}
+return result;
+}
